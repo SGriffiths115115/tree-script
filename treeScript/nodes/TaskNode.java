@@ -2,8 +2,7 @@ package treeScript.nodes;
 
 import treeScript.iterators.PostOrderNodeIterator;
 import treeScript.iterators.BreadthFirstNodeIterator;
-import treeScript.Node;
-import treeScript.NodeIterator;
+import treeScript.iterators.NodeIterator;
 import treeScript.iterators.PreOrderNodeIterator;
 import treeScript.Task;
 

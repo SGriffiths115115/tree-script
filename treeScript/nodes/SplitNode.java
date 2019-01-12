@@ -1,10 +1,8 @@
 package treeScript.nodes;
 
-import treeScript.CompositeNode;
 import treeScript.iterators.BreadthFirstNodeIterator;
 import treeScript.iterators.PostOrderNodeIterator;
-import treeScript.Node;
-import treeScript.NodeIterator;
+import treeScript.iterators.NodeIterator;
 import treeScript.iterators.PreOrderNodeIterator;
 import treeScript.Task;
 
@@ -46,15 +44,7 @@ public class SplitNode extends CompositeNode {
 
     @Override
     public Task getActiveTask() {
-        Optional<Task> returnTask = nodes.stream()
-                .map(node -> node.getActiveTask())
-                .filter(Objects::nonNull)
-                .sorted(this)
-                .findFirst();
-        if (returnTask.isPresent()) {
-            return returnTask.get();
-        }
-        return null;
+        return findActiveInList(nodes);
     }
 
     @Override
@@ -75,15 +65,6 @@ public class SplitNode extends CompositeNode {
     @Override
     public NodeIterator getPreOrderIterator() {
         return new PreOrderNodeIterator(this);
-    }
-    @Override
-    public boolean addChild(Node node) {
-        return false;
-    }
-
-    @Override
-    public boolean removeChild() {
-        return false;
     }
 
     @Override

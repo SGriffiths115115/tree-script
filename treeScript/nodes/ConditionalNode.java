@@ -1,8 +1,6 @@
 package treeScript.nodes;
 
-import treeScript.CompositeNode;
-import treeScript.Node;
-import treeScript.NodeIterator;
+import treeScript.iterators.NodeIterator;
 import treeScript.iterators.BreadthFirstNodeIterator;
 import treeScript.iterators.PostOrderNodeIterator;
 import treeScript.iterators.PreOrderNodeIterator;
@@ -15,52 +13,44 @@ import java.util.function.BooleanSupplier;
 
 public class ConditionalNode extends CompositeNode {
 
-    /********** Fields ************/
-    private ArrayList<Node> trueNodes = new ArrayList<>();
-    private ArrayList<Node> falseNodes = new ArrayList<>();
+    private ArrayList<Node> trueNodes;
+    private ArrayList<Node> falseNodes;
     private BooleanSupplier condition;
 
-    /********** Constructor ************/
     public ConditionalNode(BooleanSupplier condition) {
         this.condition = condition;
+        falseNodes = new ArrayList<>();
+        trueNodes = new ArrayList<>();
     }
 
-    public void setTrueNode(Node node) {
+    public void addTrueNode(Node node) {
         trueNodes.add(node);
     }
-    public void setFalseNode(Node node) {
+    public void addFalseNode(Node node) {
         falseNodes.add(node);
     }
     public void setCondition(BooleanSupplier condition) { this.condition = condition; }
     public ArrayList<Node> getTrueNodes() { return trueNodes; }
     public ArrayList<Node> getFalseNodes() { return falseNodes; }
     public BooleanSupplier getCondition() { return condition; }
+    public void clearTrueNodes(Node node) { trueNodes.clear(); }
+    public void clearFalseNodes(Node node) { falseNodes.clear(); }
+    public void removeNode(Node node) {
+        trueNodes.remove(node);
+        falseNodes.remove(node);
+    }
+
 
     @Override
     public Task getActiveTask() {
         if (condition.getAsBoolean()) {
-            if (trueNodes != null) {
-                Optional<Task> returnTask = trueNodes.stream()
-                        .map(node -> node.getActiveTask())
-                        .filter(Objects::nonNull)
-                        .sorted(this)
-                        .findFirst();
-                if (returnTask.isPresent()) {
-                    return returnTask.get();
-                }
-                return null;
+            if (trueNodes.size() > 0) {
+                findActiveInList(trueNodes);
             }
-        }
-        else if (falseNodes != null) {
-            Optional<Task> returnTask = falseNodes.stream()
-                    .map(node -> node.getActiveTask())
-                    .filter(Objects::nonNull)
-                    .sorted(this)
-                    .findFirst();
-            if (returnTask.isPresent()) {
-                return returnTask.get();
+        } else {
+            if (falseNodes.size() > 0) {
+                findActiveInList(falseNodes);
             }
-            return null;
         }
         return null;
     }
@@ -88,15 +78,6 @@ public class ConditionalNode extends CompositeNode {
         return returnList;
     }
 
-    @Override
-    public boolean addChild(Node node) {
-        return false;
-    }
-
-    @Override
-    public boolean removeChild() {
-        return false;
-    }
 
     @Override
     public String toString() {

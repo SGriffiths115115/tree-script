@@ -1,6 +1,7 @@
 package treeScript;
 
 import org.dreambot.api.script.AbstractScript;
+import treeScript.nodes.Node;
 
 public class TreeScript extends AbstractScript {
     private Node root;

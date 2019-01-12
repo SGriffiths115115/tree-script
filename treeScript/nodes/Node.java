@@ -1,4 +1,7 @@
-package treeScript;
+package treeScript.nodes;
+
+import treeScript.Task;
+import treeScript.iterators.NodeIterator;
 
 import java.util.ArrayList;
 

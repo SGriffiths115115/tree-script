@@ -1,4 +1,4 @@
-import treeScript.NodeIterator;
+import treeScript.iterators.NodeIterator;
 import treeScript.TreeScript;
 import treeScript.nodes.ConditionalNode;
 import treeScript.nodes.SplitNode;
@@ -12,9 +12,9 @@ public class Main {
         ConditionalNode alwaysTrue = new ConditionalNode(()-> true);
         ConditionalNode alwaysTrue2 = new ConditionalNode(()->true);
         ConditionalNode alwaysFalse = new ConditionalNode(()->false);
-        alwaysTrue.setTrueNode(new TaskNode(new Task1()));
-        alwaysTrue.setTrueNode(new TaskNode(new Task2()));
-        alwaysFalse.setFalseNode(alwaysTrue2);
+        alwaysTrue.addTrueNode(new TaskNode(new Task1()));
+        alwaysTrue.addTrueNode(new TaskNode(new Task2()));
+        alwaysFalse.addFalseNode(alwaysTrue2);
         SplitNode start = new SplitNode();
         start.addNode(alwaysTrue);
         start.addNode(alwaysFalse);

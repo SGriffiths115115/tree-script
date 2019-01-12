@@ -1,4 +1,6 @@
-package treeScript;
+package treeScript.iterators;
+
+import treeScript.nodes.Node;
 
 import java.util.Iterator;
 
